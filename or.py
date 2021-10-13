@@ -4,11 +4,7 @@ import pandas as pd
 import numpy as np
 
 def main(data, eta, epochs, modelFileName, plotFileName):
-    OR = {
-        'x1':[1,1,0,0],
-        'x2':[1,0,1,0],
-        'y':[1,1,1,0]
-    }
+    
 
     df = pd.DataFrame(data)
 
