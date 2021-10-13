@@ -4,6 +4,7 @@ import pandas as pd
 import joblib # FOR SAVING MY MODEL AS A BINARY FILE
 from matplotlib.colors import ListedColormap
 import os
+import logging
 plt.style.use("fivethirtyeight")
 
 
@@ -17,20 +18,37 @@ def prepare_data(df):
       tuple: it returns the tuple of dependent and independent variables
 
   """
+  logging.info("Preparing the data by segregating the independent and dependent variables of the dataset.")
   X = df.drop("y", axis=1)
   y = df["y"]
 
   return X,y
 
 def save_model(model, filename):
+  """It saves the model at a specified location
+
+  Args:
+      model (python object): trained model
+      filename (path name): location where the model would be saved.
+  """
+  logging.info("Saving the trained model.")
   model_dir = "models"
   os.makedirs(model_dir, exist_ok=True)# only create if the model_dir doesn't exist.
   filepath = os.path.join(model_dir, filename) # model/filename
   joblib.dump(model, filepath)
+  logging.info(f"Saving the trained model at {filepath}")
 
 
 def save_plot(df, filename, model):
+  """It function build a plot to create and visualize the plot and save the plot at a specific location
+
+  Args:
+      df (python obejct): DataFrame object named data
+      filename (location of the plot): At this specified location the plot is saved.
+      model (python object): our trained model
+  """
   def _create_base_plot(df):
+    logging.info("Creating the base plot.")
     df.plot(kind="scatter", x="x1", y="x2", c="y", s=100, cmap="winter")
     plt.axhline(y=0, color="black", linestyle="--", linewidth=1)
     plt.axvline(x=0, color="black", linestyle="--", linewidth=1)
@@ -38,6 +56,7 @@ def save_plot(df, filename, model):
     figure.set_size_inches(10,8)
 
   def _plot_decision_regions(X,y, classifier, resolution=0.02):
+    logging.info("Plotting the decision region.")
     colors = ('red', 'blue', 'lightgreen', 'gray', 'cyan')
     cmap = ListedColormap(colors[:len(np.unique(y))])
 
@@ -66,3 +85,4 @@ def save_plot(df, filename, model):
   os.makedirs(plot_dir, exist_ok=True)
   plotPath = os.path.join(plot_dir, filename)
   plt.savefig(plotPath)
+  logging.info(f"Saving the plot at {plotPath}")

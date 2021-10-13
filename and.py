@@ -2,6 +2,14 @@ from utils.model import Perceptron
 from utils.all_utils import prepare_data, save_model, save_plot
 import pandas as pd
 import numpy as np
+import logging
+import os
+
+logging_str = "[%(asctime)s: %(levelname)s: %(module)s] %(message)s"
+log_dir = "logs"
+os.makedirs(log_dir, exist_ok=True)
+logging.basicConfig(filename = os.path.join(log_dir, "running_logs.log"), level=logging.INFO, format=logging_str, filemode="a")
+
 
 def main(data, eta, epochs, modelFileName, plotFileName):
 
@@ -31,5 +39,11 @@ if __name__ == "__main__":
     eta = 0.3 # 0 and 1
     epochs = 10
 
-    main(data = AND, eta=eta, epochs=epochs, modelFileName="and.model", plotFileName="and.png")
-
+    try:
+        logging.info("\n>>>> TRAINING STARTED >>>>")
+        main(data = AND, eta = eta, epochs = epochs, modelFileName = "and.model", plotFileName = "and.png")
+        logging.info("<<<< TRAINING FINISHED <<<<\n")
+    except Exception as e:
+        logging.exception(e)
+        raise e
+    
