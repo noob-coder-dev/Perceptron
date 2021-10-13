@@ -8,10 +8,19 @@ plt.style.use("fivethirtyeight")
 
 
 def prepare_data(df):
-    X = df.drop("y", axis=1)
-    y = df["y"]
+  """it labels the dataset  
 
-    return X,y
+  Args:
+      df (pd.DataFrame): it's pandas' dataframe object
+
+  Returns:
+      tuple: it returns the tuple of dependent and independent variables
+
+  """
+  X = df.drop("y", axis=1)
+  y = df["y"]
+
+  return X,y
 
 def save_model(model, filename):
   model_dir = "models"
